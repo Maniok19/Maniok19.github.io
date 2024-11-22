@@ -27,16 +27,4 @@ I have a strong passion for development and have worked on several projects, pri
 - Git & GitHub
 - Visual Studio
 
-## Projects
-
-Here are some of the projects I've worked on:
-
-1. **Project Name** - Brief description of the project.
-2. **Project Name** - Brief description of the project.
-3. **Project Name** - Brief description of the project.
-
-## Contact
-
-Feel free to reach out to me via [email@example.com](mailto:email@example.com) or connect with me on [LinkedIn](https://www.linkedin.com).
-
 Thank you for visiting my portfolio!
