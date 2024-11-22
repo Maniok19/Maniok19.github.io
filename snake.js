@@ -11,7 +11,7 @@ let gameInterval;
 
 function drawGame() {
     updateSnake();
-    if (checkCollision()) {
+    if (checkSelfCollision()) {
         clearInterval(gameInterval);
         alert('Game Over!');
         return;
@@ -22,7 +22,20 @@ function drawGame() {
 }
 
 function updateSnake() {
-    const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+    let head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+    // Wrap the snake's position to the opposite side if it goes out of bounds
+    if (head.x < 0) {
+        head.x = tileCount - 1;
+    } else if (head.x >= tileCount) {
+        head.x = 0;
+    }
+    if (head.y < 0) {
+        head.y = tileCount - 1;
+    } else if (head.y >= tileCount) {
+        head.y = 0;
+    }
+
     snake.unshift(head);
     if (head.x === food.x && head.y === food.y) {
         placeFood();
@@ -31,11 +44,8 @@ function updateSnake() {
     }
 }
 
-function checkCollision() {
+function checkSelfCollision() {
     const head = snake[0];
-    if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-        return true;
-    }
     for (let i = 1; i < snake.length; i++) {
         if (snake[i].x === head.x && snake[i].y === head.y) {
             return true;
