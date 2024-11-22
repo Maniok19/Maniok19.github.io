@@ -12,6 +12,10 @@ body {
     background-color: var(--background-color);
     margin: 0;
     padding: 0;
+    background-image: url('space.jpg');
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
 }
 
 .container {
