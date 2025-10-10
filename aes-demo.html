@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES Encryption - Interactive Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="aes-styles.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="glitch" data-text="AES Encryption">AES Encryption</h1>
+            <p class="subtitle">Advanced Encryption Standard - Interactive Demo</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container aes-main">
+        <section class="intro-section fade-in">
+            <div class="section-header">
+                <h2>What is AES?</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <p>
+                    The Advanced Encryption Standard (AES) is a symmetric encryption algorithm established by NIST in 2001. 
+                    It operates on 128-bit blocks of data using keys of 128, 192, or 256 bits. AES is widely used for 
+                    securing sensitive data in applications ranging from file encryption to secure communications.
+                </p>
+            </div>
+        </section>
+
+        <section class="input-section fade-in">
+            <div class="section-header">
+                <h2>Try It Yourself</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <!-- Mode Toggle -->
+            <div class="mode-toggle-container">
+                <button id="encrypt-mode-btn" class="mode-toggle-btn active">
+                    <span class="mode-icon">🔒</span>
+                    Encryption
+                </button>
+                <button id="decrypt-mode-btn" class="mode-toggle-btn">
+                    <span class="mode-icon">🔓</span>
+                    Decryption
+                </button>
+            </div>
+
+            <div class="input-container">
+                <!-- Encryption Inputs -->
+                <div id="encryption-inputs" class="mode-inputs">
+                    <div class="input-group">
+                        <label for="plaintext">Plaintext (16 characters max):</label>
+                        <input type="text" id="plaintext" maxlength="16" placeholder="Enter your message">
+                    </div>
+                    <div class="input-group">
+                        <label for="encrypt-key">Key (16 characters for 128-bit):</label>
+                        <input type="text" id="encrypt-key" maxlength="16" placeholder="Enter encryption key">
+                    </div>
+                    <button id="encrypt-btn" class="encrypt-button">Start Encryption</button>
+                </div>
+
+                <!-- Decryption Inputs -->
+                <div id="decryption-inputs" class="mode-inputs" style="display: none;">
+                    <div class="input-group">
+                        <label for="ciphertext">Ciphertext (32 hex characters):</label>
+                        <input type="text" id="ciphertext" maxlength="32" placeholder="Enter hex ciphertext (e.g., 69C4E0D86A7B0430D8CDB78070B4C55A)">
+                    </div>
+                    <div class="input-group">
+                        <label for="decrypt-key">Key (16 characters for 128-bit):</label>
+                        <input type="text" id="decrypt-key" maxlength="16" placeholder="Enter decryption key">
+                    </div>
+                    <button id="decrypt-btn" class="encrypt-button">Start Decryption</button>
+                </div>
+
+                <button id="reset-btn" class="reset-button">Reset</button>
+            </div>
+        </section>
+
+        <section class="visualization-section fade-in">
+            <div class="section-header">
+                <h2 id="process-title">Encryption Process</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="process-container">
+                <div class="current-step">
+                    <h3 id="step-title">Ready to Start</h3>
+                    <p id="step-description">Enter your plaintext and key, then click "Start Encryption"</p>
+                </div>
+                
+                <div class="state-matrix-container">
+                    <h4>State Matrix</h4>
+                    <div id="state-matrix" class="matrix"></div>
+                </div>
+
+                <div class="round-info">
+                    <span id="round-counter">Round: 0/10</span>
+                </div>
+
+                <div class="operations-container">
+                    <div class="operation-box" id="subbytes-box">
+                        <h4 id="subbytes-title">SubBytes</h4>
+                        <div class="operation-content">
+                            <p id="subbytes-desc">Substitutes each byte using S-Box</p>
+                            <div class="sbox-visual"></div>
+                        </div>
+                    </div>
+                    <div class="operation-box" id="shiftrows-box">
+                        <h4 id="shiftrows-title">ShiftRows</h4>
+                        <div class="operation-content">
+                            <p id="shiftrows-desc">Cyclically shifts rows</p>
+                            <div class="shift-visual"></div>
+                        </div>
+                    </div>
+                    <div class="operation-box" id="mixcolumns-box">
+                        <h4 id="mixcolumns-title">MixColumns</h4>
+                        <div class="operation-content">
+                            <p id="mixcolumns-desc">Mixes column data</p>
+                            <div class="mix-visual"></div>
+                        </div>
+                    </div>
+                    <div class="operation-box" id="addroundkey-box">
+                        <h4>AddRoundKey</h4>
+                        <div class="operation-content">
+                            <p>XORs with round key</p>
+                            <div class="xor-visual"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="output-container">
+                    <h4 id="output-title">Encrypted Output (Hex)</h4>
+                    <div id="encrypted-output" class="output-display"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section fade-in">
+            <div class="section-header">
+                <h2>AES Algorithm Steps</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Step 1</div>
+                    <div class="timeline-content">
+                        <h3>Initial Round</h3>
+                        <p>AddRoundKey - XOR the state with the initial round key derived from the cipher key.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Step 2</div>
+                    <div class="timeline-content">
+                        <h3>Main Rounds (9 rounds for 128-bit)</h3>
+                        <ul>
+                            <li>SubBytes - Non-linear substitution using S-box</li>
+                            <li>ShiftRows - Transposition step with cyclic shifts</li>
+                            <li>MixColumns - Linear mixing operation</li>
+                            <li>AddRoundKey - XOR with round key</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Step 3</div>
+                    <div class="timeline-content">
+                        <h3>Final Round</h3>
+                        <p>SubBytes, ShiftRows, and AddRoundKey (MixColumns is omitted in the final round).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Mano Delcourt. All rights reserved.</p>
+    </footer>
+
+    <script src="aes-script.js"></script>
+</body>
+</html>
