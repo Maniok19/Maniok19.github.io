@@ -3,165 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WikiTricks - Skateboarding Community Platform</title>
+    <title>Mano Delcourt - Embedded System Developer</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Add street-style fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header Navigation -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    
+    <div class="solar-system-container">
+        <div class="sun"></div>
+        <div class="orbit mercury-orbit">
+            <div class="planet mercury"></div>
+        </div>
+        <div class="orbit venus-orbit">
+            <div class="planet venus"></div>
+        </div>
+        <div class="orbit earth-orbit">
+            <div class="planet earth">
+                <div class="moon"></div>
+            </div>
+        </div>
+        <div class="orbit mars-orbit">
+            <div class="planet mars"></div>
+        </div>
+        <div class="orbit jupiter-orbit">
+            <div class="planet jupiter"></div>
+        </div>
+        <div class="orbit saturn-orbit">
+            <div class="planet saturn">
+                <div class="saturn-ring"></div>
+            </div>
+        </div>
+        <div class="orbit uranus-orbit">
+            <div class="planet uranus"></div>
+        </div>
+        <div class="orbit neptune-orbit">
+            <div class="planet neptune"></div>
+        </div>
+    </div>
+
     <header class="header">
         <div class="container">
-            <div class="nav-brand">
-                <img src="../landing_page/public/logo_image.png" alt="WikiTricks Logo" class="logo">
-                <span class="brand-name">WikiTricks</span>
+            <h1 class="glitch" data-text="Mano Delcourt">Mano Delcourt</h1>
+            <p class="subtitle">Embedded System Developer</p>
+            <div class="contact-info">
+                <a href="mailto:mano19029@hotmail.fr" class="contact-link">mano19029@hotmail.fr</a>
+                <span class="separator">|</span>
+                <a href="tel:+33683934126" class="contact-link">+33 6 83 93 41 26</a>
+                <span class="separator">|</span>
+                <span class="location">France</span>
             </div>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="#features" class="nav-link">Features</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#demo" class="nav-link">Demo</a></li>
-                </ul>
-            </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-image">
-                <img src="../landing_page/public/logo_image.png" alt="WikiTricks Cover" class="cover-image">
+    <main class="container">
+        <section class="about-section fade-in">
+            <div class="section-header">
+                <h2>About Me</h2>
+                <div class="section-line"></div>
             </div>
-            <h1 class="hero-title">WikiTricks</h1>
-            <p class="hero-subtitle">Your ultimate skateboarding community platform</p>
-            <p class="hero-description">Learn tricks, discover spots, connect with skaters worldwide</p>
-            <a href="https://wikitricks.netlify.app" target="_blank" class="cta-button">
-                🛹 Launch WikiTricks
-            </a>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Key Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-image">
-                        <img src="../landing_page/Screenshots/homescreen.png" alt="Trick of the Day" class="feature-img">
-                    </div>
-                    <h3 class="feature-title">Trick of the Day</h3>
-                    <p class="feature-description">
-                        Discover new skateboarding tricks every day with our curated "Trick of the Day" feature. 
-                        Each trick includes detailed descriptions, difficulty levels, and video tutorials to help you master new moves.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-image">
-                        <img src="../landing_page/Screenshots/forumscreen.png" alt="Community Forum" class="feature-img">
-                    </div>
-                    <h3 class="feature-title">Community Forum</h3>
-                    <p class="feature-description">
-                        Join discussions with fellow skaters, share your experiences, ask questions, and get advice. 
-                        Our forum creates a supportive environment for skaters of all skill levels to connect and learn from each other.
-                    </p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-image">
-                        <img src="../landing_page/Screenshots/parksscreen.png" alt="Skate Spots" class="feature-img">
-                    </div>
-                    <h3 class="feature-title">Skate Spots Discovery</h3>
-                    <p class="feature-description">
-                        Find and share skateboarding locations worldwide. Discover new spots, read reviews, and contribute 
-                        to the community by adding your favorite skating locations with detailed descriptions and photos.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About WikiTricks</h2>
             <div class="about-content">
-                <div class="about-text">
-                    <h3>The Story Behind WikiTricks</h3>
-                    <p>
-                        WikiTricks was born from my passion for skateboarding. As a skater myself, 
-                        I noticed that information about tricks and skating locations was often hard to find.
-                    </p>
-                    <p>
-                        The inspiration came during a skating session where I was trying to learn a new trick but couldn't find 
-                        comprehensive resources. I wanted a website like Wikipedia with the skateboarding community - WikiTricks was born.
-                    </p>
-                    <p>
-                        This project represents 2 months of development, combining my love for skateboarding with my passion for 
-                        web development. It's a Portfolio Project for 
-                        <a href="https://www.holbertonschool.com" target="_blank">Holberton School</a>, where I've been able to 
-                        apply full-stack development skills to create something for the skateboarding community.
-                    </p>
-                </div>
-                
-                <div class="team-section">
-                    <h3>Meet the Developer</h3>
-                    <div class="team-member">
-                        <h4>Mano.D</h4>
-                        <p>Full-Stack Developer & Skateboarding Enthusiast</p>
-                        <div class="social-links">
-                            <a href="https://www.linkedin.com/in/mano-delcourt/" target="_blank" class="social-link">
-                                <span>LinkedIn</span>
-                            </a>
-                            <a href="https://github.com/Maniok19" target="_blank" class="social-link">
-                                <span>GitHub</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="project-links">
-                        <a href="https://github.com/Maniok19/Wikitricks" target="_blank" class="project-link">
-                            <span>📁 View Project Repository</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section id="demo" class="demo">
-        <div class="container">
-            <h2 class="section-title">See WikiTricks in Action</h2>
-            <div class="demo-content">
-                <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/kAdIMa4q9D8" 
-                        title="WikiTricks Demo Video" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <p class="demo-description">
-                    Watch our comprehensive demo to see all the features of WikiTricks in action. 
-                    From discovering tricks to connecting with the community, this video showcases everything 
-                    our platform has to offer.
+                <p>
+                    Hello. I am looking for a developer position. My knowledge in cybersecurity and low-level programming 
+                    will be an asset to your company. I am someone very serious at work (punctual and hardworking). 
+                    I love learning continuously. I look forward to meeting you.
                 </p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
+        <section class="experience-section fade-in">
+            <div class="section-header">
+                <h2>Professional Experience</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">08/2025 - Present</div>
+                    <div class="timeline-content">
+                        <h3>Embedded System Security</h3>
+                        <h4>Thales - La Ciotat</h4>
+                        <ul>
+                            <li>Cybersecurity Digital Identity</li>
+                            <li>Embedded software for microcontrollers in various applications</li>
+                            <li>Embedded System Security</li>
+                            <li>C development</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">01/2020 - 06/2025</div>
+                    <div class="timeline-content">
+                        <h3>Freelancer</h3>
+                        <h4>Self - Lyon</h4>
+                        <ul>
+                            <li>Developed multiple websites for businesses</li>
+                            <li>Developed Arduino programs for robotic businesses</li>
+                            <li>Developed functionality for various videogames</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="education-section fade-in">
+            <div class="section-header">
+                <h2>Academic Education</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">06/2024 - 07/2025</div>
+                    <div class="timeline-content">
+                        <h3>RNCP 5 Application Developer Designer</h3>
+                        <h4>Holberton School - Frejus</h4>
+                        <p>C, Python, Javascript, UML, SQL...</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">09/2017 - 07/2019</div>
+                    <div class="timeline-content">
+                        <h3>Baccalaureat (Scientific)</h3>
+                        <h4>Lycée F. Petrarque - Avignon</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="certifications-section fade-in">
+            <div class="section-header">
+                <h2>Certifications & Distinctions</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h3>IBM Cybersecurity</h3>
+                    <p>2024</p>
+                </div>
+                <div class="cert-card">
+                    <h3>IBM Database Management</h3>
+                    <p>2024</p>
+                </div>
+                <div class="cert-card distinction">
+                    <h3>MasterDEV Paris Hackathon</h3>
+                    <p>Finalist</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="interests-section fade-in">
+            <div class="section-header">
+                <h2>Interests</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="interests-grid">
+                <div class="interest-item">Chess</div>
+                <div class="interest-item">Rock Climbing</div>
+                <div class="interest-item">Guitar</div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 WikiTricks. Built with ❤️ for the skateboarding community.</p>
-            <p>
-                <a href="https://wikitricks.netlify.app" target="_blank">Launch App</a> | 
-                <a href="https://github.com/mano-d/WikiTricks" target="_blank">GitHub</a>
-            </p>
-        </div>
+        <p>&copy; 2025 Mano Delcourt. All rights reserved.</p>
     </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
