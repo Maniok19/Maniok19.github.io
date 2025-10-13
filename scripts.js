@@ -183,3 +183,127 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// GitHub Integration
+const GITHUB_USERNAME = 'Maniok19'; // Change this to your GitHub username
+const GITHUB_API_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
+const GITHUB_REPOS_URL = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`;
+
+async function fetchGitHubData() {
+    try {
+        // Fetch user data
+        const userResponse = await fetch(GITHUB_API_URL);
+        if (!userResponse.ok) throw new Error('Failed to fetch user data');
+        const userData = await userResponse.json();
+
+        // Fetch repositories
+        const reposResponse = await fetch(GITHUB_REPOS_URL);
+        if (!reposResponse.ok) throw new Error('Failed to fetch repositories');
+        const reposData = await reposResponse.json();
+
+        // Update stats
+        updateGitHubStats(userData, reposData);
+        
+        // Display repositories
+        displayRepositories(reposData);
+    } catch (error) {
+        console.error('GitHub API Error:', error);
+        displayError();
+    }
+}
+
+function updateGitHubStats(userData, reposData) {
+    // Calculate total stars and forks
+    const totalStars = reposData.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+    const totalForks = reposData.reduce((sum, repo) => sum + repo.forks_count, 0);
+
+    // Animate counting up
+    animateValue('total-repos', 0, userData.public_repos, 1000);
+    animateValue('total-stars', 0, totalStars, 1000);
+    animateValue('total-forks', 0, totalForks, 1000);
+    animateValue('followers', 0, userData.followers, 1000);
+}
+
+function animateValue(id, start, end, duration) {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            current = end;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, 16);
+}
+
+function displayRepositories(repos) {
+    const container = document.getElementById('github-repos');
+    
+    if (repos.length === 0) {
+        container.innerHTML = '<p class="error-message">No repositories found.</p>';
+        return;
+    }
+
+    container.innerHTML = repos.map(repo => {
+        const language = repo.language || 'N/A';
+        const description = repo.description || 'No description available';
+        const topics = repo.topics || [];
+        
+        return `
+            <div class="repo-card" onclick="window.open('${repo.html_url}', '_blank')">
+                <div class="repo-header">
+                    <span class="repo-icon">📁</span>
+                    <h3 class="repo-name">${repo.name}</h3>
+                </div>
+                <p class="repo-description">${description}</p>
+                <div class="repo-stats">
+                    <div class="repo-stat">
+                        <span class="repo-stat-icon">⭐</span>
+                        <span>${repo.stargazers_count}</span>
+                    </div>
+                    <div class="repo-stat">
+                        <span class="repo-stat-icon">🔱</span>
+                        <span>${repo.forks_count}</span>
+                    </div>
+                    <div class="repo-stat">
+                        <span class="repo-stat-icon">👁️</span>
+                        <span>${repo.watchers_count}</span>
+                    </div>
+                </div>
+                ${language !== 'N/A' ? `<span class="repo-language">${language}</span>` : ''}
+                ${topics.length > 0 ? `
+                    <div class="repo-topics">
+                        ${topics.slice(0, 3).map(topic => `<span class="repo-topic">${topic}</span>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+function displayError() {
+    const container = document.getElementById('github-repos');
+    container.innerHTML = `
+        <p class="error-message">
+            Unable to load GitHub repositories. Please try again later.
+        </p>
+    `;
+    
+    // Set stats to error state
+    ['total-repos', 'total-stars', 'total-forks', 'followers'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = '--';
+    });
+}
+
+// Initialize GitHub data when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Fetch GitHub data
+    fetchGitHubData();
+});
