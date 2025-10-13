@@ -259,7 +259,7 @@
 /* Animated timer hand */
 .timer-hand {
     animation: rotate-timer 4s linear infinite;
-    transform-origin: 200px 500px;
+    transform-origin: 240px 510px;
 }
 
 @keyframes rotate-timer {
@@ -267,159 +267,240 @@
     to { transform: rotate(360deg); }
 }
 
-/* Info Panel */
-.info-panel {
-    background: linear-gradient(135deg, rgba(10, 15, 25, 0.95) 0%, rgba(15, 20, 30, 0.9) 100%);
-    border: 2px solid rgba(0, 217, 255, 0.4);
-    border-radius: 15px;
-    padding: 30px;
-    margin-top: 30px;
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.5s ease;
-    box-shadow: 0 0 30px rgba(0, 217, 255, 0.2);
+/* Pipeline stage animations */
+.sub-component[data-sub="pipeline"] {
+    animation: pipeline-flow 2s ease-in-out infinite;
 }
 
-.info-panel.active {
-    opacity: 1;
-    max-height: 1000px;
+@keyframes pipeline-flow {
+    0%, 100% { fill: rgba(0, 0, 0, 0.6); }
+    33% { fill: rgba(0, 217, 255, 0.2); }
+    66% { fill: rgba(0, 217, 255, 0.15); }
 }
 
-.info-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid rgba(0, 217, 255, 0.3);
-    padding-bottom: 15px;
+/* ALU computation pulse */
+.sub-component[data-sub="alu"] {
+    animation: alu-compute 1.5s ease-in-out infinite;
 }
 
-.info-header h3 {
-    color: #00d9ff;
-    font-size: 1.8rem;
-    margin: 0;
-    font-family: 'Courier New', monospace;
+@keyframes alu-compute {
+    0%, 100% { 
+        fill: rgba(0, 0, 0, 0.6);
+        stroke: rgba(0, 217, 255, 0.5);
+    }
+    50% { 
+        fill: rgba(255, 107, 107, 0.15);
+        stroke: rgba(255, 107, 107, 0.8);
+    }
 }
 
-.close-btn {
-    background: none;
-    border: 2px solid rgba(0, 217, 255, 0.5);
-    color: #00d9ff;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Register access blink */
+.sub-component[data-sub="registers"] {
+    animation: register-access 3s ease-in-out infinite;
 }
 
-.close-btn:hover {
-    background: rgba(0, 217, 255, 0.2);
-    border-color: #00d9ff;
-    transform: rotate(90deg);
+@keyframes register-access {
+    0%, 90%, 100% { opacity: 1; }
+    93%, 96% { opacity: 0.6; }
 }
 
-.info-content {
-    color: #c0c0c0;
-    line-height: 1.8;
+/* Control unit signal */
+.sub-component[data-sub="control"] {
+    animation: control-signal 2.5s ease-in-out infinite;
 }
 
-.info-content h4 {
-    color: #00d9ff;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    font-size: 1.3rem;
+@keyframes control-signal {
+    0%, 100% { stroke: rgba(0, 217, 255, 0.5); }
+    50% { stroke: rgba(78, 205, 196, 0.8); }
 }
 
-.info-content ul {
-    list-style: none;
-    padding-left: 0;
+/* Bus data flow animation */
+.bus-line {
+    stroke: rgba(155, 89, 182, 0.7);
+    stroke-width: 4;
+    fill: none;
+    pointer-events: none;
+    stroke-linecap: round;
+    animation: bus-flow 3s linear infinite;
 }
 
-.info-content li {
-    padding-left: 25px;
-    position: relative;
-    margin-bottom: 10px;
+@keyframes bus-flow {
+    0% { stroke-dasharray: 20 10; stroke-dashoffset: 0; }
+    100% { stroke-dasharray: 20 10; stroke-dashoffset: -30; }
 }
 
-.info-content li::before {
-    content: '▹';
-    position: absolute;
-    left: 0;
-    color: #00d9ff;
+/* Connection traces pulsing */
+.connection-trace {
+    stroke: rgba(0, 217, 255, 0.6);
+    stroke-width: 3;
+    fill: none;
+    pointer-events: none;
+    stroke-linecap: round;
+    animation: trace-pulse 4s ease-in-out infinite;
 }
 
-.info-content .feature-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 15px;
+@keyframes trace-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
 }
 
-.info-content .feature-item {
-    background: rgba(0, 217, 255, 0.05);
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+/* External bus line animations */
+.debug-bus { 
+    stroke: #ff4757;
+    animation: bus-activity 2s ease-in-out infinite;
 }
 
-.info-content .feature-item strong {
-    color: #00d9ff;
-    display: block;
-    margin-bottom: 5px;
+.interrupt-bus { 
+    stroke: #4ecdc4;
+    animation: bus-activity 2.5s ease-in-out infinite 0.2s;
 }
 
-/* Specs Grid */
-.specs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
+.clock-bus { 
+    stroke: #ffc300;
+    animation: clock-pulse 1s linear infinite;
 }
 
-.spec-card {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.05) 100%);
-    padding: 30px;
-    border-radius: 12px;
-    border: 2px solid rgba(0, 217, 255, 0.3);
-    transition: all 0.3s ease;
+.reset-bus { 
+    stroke: #ff9f40;
 }
 
-.spec-card:hover {
-    transform: translateY(-5px);
-    border-color: #00d9ff;
-    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+.ahb-bus { 
+    stroke: #9b59b6;
+    animation: bus-activity 3s ease-in-out infinite 0.4s;
 }
 
-.spec-card h3 {
-    color: #00d9ff;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    text-align: center;
-    font-family: 'Courier New', monospace;
+.apb-bus { 
+    stroke: #2ed573;
+    animation: bus-activity 3.5s ease-in-out infinite 0.6s;
 }
 
-.spec-card ul {
-    list-style: none;
-    padding: 0;
+@keyframes bus-activity {
+    0%, 100% { opacity: 0.5; stroke-width: 4; }
+    50% { opacity: 1; stroke-width: 5; }
 }
 
-.spec-card li {
-    padding: 8px 0;
-    padding-left: 25px;
-    position: relative;
-    color: #c0c0c0;
+@keyframes clock-pulse {
+    0%, 50%, 100% { opacity: 0.8; }
+    25%, 75% { opacity: 1; }
 }
 
-.spec-card li::before {
-    content: '▹';
-    position: absolute;
-    left: 0;
-    color: #00d9ff;
+/* Cache activity indicator */
+#cache .sub-component {
+    animation: cache-hit 2s ease-in-out infinite;
+}
+
+@keyframes cache-hit {
+    0%, 80%, 100% { fill: rgba(100,255,200,0.2); }
+    85%, 95% { fill: rgba(100,255,200,0.4); }
+}
+
+/* FPU register activity */
+#fpu rect[x="1170"] {
+    animation: fpu-calc 4s ease-in-out infinite;
+}
+
+@keyframes fpu-calc {
+    0%, 100% { fill: rgba(116,185,255,0.2); }
+    25% { fill: rgba(116,185,255,0.35); }
+    50% { fill: rgba(116,185,255,0.45); }
+    75% { fill: rgba(116,185,255,0.3); }
+}
+
+/* NVIC priority levels animation */
+#nvic rect[x="1170"] {
+    animation: priority-scan 5s linear infinite;
+}
+
+@keyframes priority-scan {
+    0%, 100% { opacity: 0.3; }
+    20% { opacity: 0.8; }
+    40% { opacity: 0.4; }
+    60% { opacity: 0.7; }
+    80% { opacity: 0.5; }
+}
+
+/* MPU region check */
+#mpu rect[x="150"] {
+    animation: mpu-check 3s ease-in-out infinite;
+}
+
+@keyframes mpu-check {
+    0%, 100% { stroke: rgba(255,195,0,0.4); }
+    50% { stroke: rgba(255,195,0,0.9); }
+}
+
+/* SAU security regions */
+#sau rect[fill*="200,100,255"] {
+    animation: secure-check 4s ease-in-out infinite;
+}
+
+#sau rect[fill*="100,200,255"] {
+    animation: nonsecure-check 4s ease-in-out infinite 2s;
+}
+
+@keyframes secure-check {
+    0%, 100% { fill: rgba(200,100,255,0.3); }
+    50% { fill: rgba(200,100,255,0.6); }
+}
+
+@keyframes nonsecure-check {
+    0%, 100% { fill: rgba(100,200,255,0.3); }
+    50% { fill: rgba(100,200,255,0.6); }
+}
+
+/* Memory regions access pattern */
+#memory rect[x="520"],
+#memory rect[x="700"],
+#memory rect[x="880"] {
+    animation: memory-access 3s ease-in-out infinite;
+}
+
+#memory rect[x="700"] {
+    animation-delay: 0.5s;
+}
+
+#memory rect[x="880"] {
+    animation-delay: 1s;
+}
+
+@keyframes memory-access {
+    0%, 80%, 100% { opacity: 1; }
+    90% { opacity: 0.5; }
+}
+
+/* Chip corner pins blinking */
+circle[cx="50"][cy="50"],
+circle[cx="1550"][cy="50"],
+circle[cx="50"][cy="1150"],
+circle[cx="1550"][cy="1150"] {
+    animation: pin-blink 3s ease-in-out infinite;
+}
+
+circle[cx="1550"][cy="50"] {
+    animation-delay: 0.75s;
+}
+
+circle[cx="50"][cy="1150"] {
+    animation-delay: 1.5s;
+}
+
+circle[cx="1550"][cy="1150"] {
+    animation-delay: 2.25s;
+}
+
+@keyframes pin-blink {
+    0%, 95%, 100% { opacity: 0.5; }
+    97.5% { opacity: 1; }
+}
+
+/* Circuit pattern subtle animation */
+#circuitPattern circle {
+    animation: circuit-node 5s ease-in-out infinite;
+}
+
+@keyframes circuit-node {
+    0%, 100% { fill: rgba(0,217,255,0.2); }
+    50% { fill: rgba(0,217,255,0.4); }
 }
 
 /* Responsive */

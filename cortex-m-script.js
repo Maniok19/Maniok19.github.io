@@ -229,6 +229,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 showInfo(info);
             }
         });
+
+        // Add hover effect to highlight connections
+        component.addEventListener('mouseenter', () => {
+            highlightConnections(component.dataset.component);
+        });
+
+        component.addEventListener('mouseleave', () => {
+            resetConnections();
+        });
     });
 
     closeBtn.addEventListener('click', () => {
@@ -272,45 +281,79 @@ document.addEventListener('DOMContentLoaded', () => {
         infoPanel.classList.add('active');
     }
 
-    // Animate connections
-    animateConnections();
-});
+    function highlightConnections(componentId) {
+        const connectionMap = {
+            'core': ['.debug-trace', '.interrupt-trace'],
+            'nvic': ['.interrupt-trace'],
+            'debug': ['.debug-trace'],
+            'bus': ['.ahb-trace', '.apb-trace'],
+            'memory': ['.flash-trace', '.sram-trace', '.ext-mem-bus']
+        };
 
-function animateConnections() {
-    const connections = document.querySelectorAll('.connection-line');
-    
-    connections.forEach((line, index) => {
-        const length = line.getTotalLength();
-        line.style.strokeDasharray = length;
-        line.style.strokeDashoffset = length;
-        
-        setTimeout(() => {
-            line.style.transition = 'stroke-dashoffset 2s ease-in-out';
-            line.style.strokeDashoffset = '0';
-        }, index * 200);
-    });
-    
-    // Repeat animation
-    setInterval(() => {
-        connections.forEach((line, index) => {
-            const length = line.getTotalLength();
-            setTimeout(() => {
-                line.style.strokeDashoffset = length;
-                setTimeout(() => {
-                    line.style.strokeDashoffset = '0';
-                }, 100);
-            }, index * 200);
-        });
-    }, 10000);
-}
+        const traces = connectionMap[componentId];
+        if (traces) {
+            traces.forEach(selector => {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(el => {
+                    el.style.strokeWidth = '5';
+                    el.style.opacity = '1';
+                });
+            });
+        }
+    }
 
-// Add pulsing effect to active connections
-setInterval(() => {
-    const activeComponent = document.querySelector('.component.active');
-    if (activeComponent) {
-        const connections = document.querySelectorAll('.connection-line');
-        connections.forEach(conn => {
-            conn.style.opacity = 0.4 + Math.random() * 0.4;
+    function resetConnections() {
+        const traces = document.querySelectorAll('.connection-trace');
+        traces.forEach(trace => {
+            trace.style.strokeWidth = '3';
+            trace.style.opacity = '';
         });
     }
-}, 500);
+
+    // Animate data flow through buses
+    animateBusFlow();
+    
+    // Add random memory access flashes
+    setInterval(randomMemoryAccess, 2000);
+});
+
+function animateBusFlow() {
+    const busLines = document.querySelectorAll('.bus-line');
+    
+    busLines.forEach((line, index) => {
+        line.style.strokeDasharray = '20 10';
+        line.style.animation = `bus-flow 3s linear infinite ${index * 0.3}s`;
+    });
+}
+
+function randomMemoryAccess() {
+    const memoryRegions = document.querySelectorAll('#memory rect[x]');
+    const randomRegion = memoryRegions[Math.floor(Math.random() * memoryRegions.length)];
+    
+    if (randomRegion && randomRegion.getAttribute('x') !== '500') {
+        const originalFill = randomRegion.getAttribute('fill');
+        randomRegion.setAttribute('fill', 'rgba(253,121,168,0.8)');
+        
+        setTimeout(() => {
+            randomRegion.setAttribute('fill', originalFill);
+        }, 200);
+    }
+}
+
+// Add circuit pattern animation
+function animateCircuitPattern() {
+    const pattern = document.getElementById('circuitPattern');
+    if (pattern) {
+        const circles = pattern.querySelectorAll('circle');
+        circles.forEach((circle, index) => {
+            setInterval(() => {
+                const currentOpacity = parseFloat(circle.getAttribute('fill').match(/[\d.]+\)$/)[0]);
+                const newOpacity = currentOpacity === 0.2 ? 0.5 : 0.2;
+                circle.setAttribute('fill', `rgba(0,217,255,${newOpacity})`);
+            }, 2000 + index * 200);
+        });
+    }
+}
+
+// Initialize animations
+animateCircuitPattern();
