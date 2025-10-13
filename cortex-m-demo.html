@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARM Cortex-M Architecture - Interactive Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cortex-m-styles.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="glitch" data-text="ARM Cortex-M">ARM Cortex-M</h1>
+            <p class="subtitle">Interactive Architecture Map</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container cortex-main">
+        <section class="intro-section fade-in">
+            <div class="section-header">
+                <h2>What is ARM Cortex-M?</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <p>
+                    The ARM Cortex-M is a family of 32-bit RISC ARM processor cores designed for microcontroller applications.
+                    It offers excellent energy efficiency, deterministic interrupt handling, and a comprehensive debug system.
+                    Widely used in IoT, automotive, industrial control, and embedded systems.
+                </p>
+            </div>
+        </section>
+
+        <section class="architecture-section fade-in">
+            <div class="section-header">
+                <h2>Interactive Die Layout</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="architecture-container">
+                <svg id="cortex-map" viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Chip Background -->
+                    <defs>
+                        <!-- Gradient for chip substrate -->
+                        <linearGradient id="chipGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#0a0e1a;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#0f1419;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0a0e1a;stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Circuit pattern -->
+                        <pattern id="circuitPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                            <line x1="0" y1="20" x2="40" y2="20" stroke="rgba(0,217,255,0.1)" stroke-width="0.5"/>
+                            <line x1="20" y1="0" x2="20" y2="40" stroke="rgba(0,217,255,0.1)" stroke-width="0.5"/>
+                            <circle cx="20" cy="20" r="1.5" fill="rgba(0,217,255,0.2)"/>
+                        </pattern>
+                        
+                        <!-- Metal layers effect -->
+                        <filter id="metallic">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                            <feOffset dx="0" dy="1" result="offsetblur"/>
+                            <feFlood flood-color="#00d9ff" flood-opacity="0.3"/>
+                            <feComposite in2="offsetblur" operator="in"/>
+                            <feMerge>
+                                <feMergeNode/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        
+                        <!-- Glow effect -->
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Chip substrate -->
+                    <rect x="50" y="50" width="1500" height="1100" fill="url(#chipGradient)" stroke="rgba(0,217,255,0.3)" stroke-width="3"/>
+                    <rect x="50" y="50" width="1500" height="1100" fill="url(#circuitPattern)"/>
+                    
+                    <!-- External Bus Connections (Left Side - Input) -->
+                    <g class="external-buses">
+                        <!-- JTAG/SWD Debug Port -->
+                        <line x1="0" y1="200" x2="50" y2="200" class="external-bus-line debug-bus"/>
+                        <text x="5" y="195" class="bus-label">JTAG/SWD</text>
+                        
+                        <!-- External Interrupt Lines -->
+                        <line x1="0" y1="350" x2="50" y2="350" class="external-bus-line interrupt-bus"/>
+                        <text x="5" y="345" class="bus-label">IRQ[0-239]</text>
+                        
+                        <!-- Clock Input -->
+                        <line x1="0" y1="500" x2="50" y2="500" class="external-bus-line clock-bus"/>
+                        <text x="5" y="495" class="bus-label">CLK_IN</text>
+                        
+                        <!-- Reset -->
+                        <line x1="0" y1="650" x2="50" y2="650" class="external-bus-line reset-bus"/>
+                        <text x="5" y="645" class="bus-label">RESET</text>
+                    </g>
+
+                    <!-- External Bus Connections (Right Side - Output) -->
+                    <g class="external-buses">
+                        <!-- AHB Bus to Peripherals -->
+                        <line x1="1550" y1="400" x2="1600" y2="400" class="external-bus-line ahb-bus"/>
+                        <text x="1555" y="395" class="bus-label">AHB</text>
+                        
+                        <!-- APB Bus to Peripherals -->
+                        <line x1="1550" y1="500" x2="1600" y2="500" class="external-bus-line apb-bus"/>
+                        <text x="1555" y="495" class="bus-label">APB</text>
+                        
+                        <!-- DMA Channels -->
+                        <line x1="1550" y1="600" x2="1600" y2="600" class="external-bus-line dma-bus"/>
+                        <text x="1555" y="595" class="bus-label">DMA[0-7]</text>
+                        
+                        <!-- GPIO -->
+                        <line x1="1550" y1="700" x2="1600" y2="700" class="external-bus-line gpio-bus"/>
+                        <text x="1555" y="695" class="bus-label">GPIO</text>
+                    </g>
+
+                    <!-- External Bus Connections (Bottom - Memory Interface) -->
+                    <g class="external-buses">
+                        <!-- Flash Memory Interface -->
+                        <line x1="300" y1="1150" x2="300" y2="1200" class="external-bus-line flash-bus"/>
+                        <text x="250" y="1190" class="bus-label">FLASH</text>
+                        
+                        <!-- SRAM Interface -->
+                        <line x1="600" y1="1150" x2="600" y2="1200" class="external-bus-line sram-bus"/>
+                        <text x="560" y="1190" class="bus-label">SRAM</text>
+                        
+                        <!-- External Memory Bus -->
+                        <line x1="900" y1="1150" x2="900" y2="1200" class="external-bus-line ext-mem-bus"/>
+                        <text x="840" y="1190" class="bus-label">EXT_MEM</text>
+                    </g>
+                    
+                    <!-- Chip corner pins -->
+                    <circle cx="50" cy="50" r="8" fill="#00d9ff" opacity="0.5"/>
+                    <circle cx="1550" cy="50" r="8" fill="#00d9ff" opacity="0.5"/>
+                    <circle cx="50" cy="1150" r="8" fill="#00d9ff" opacity="0.5"/>
+                    <circle cx="1550" cy="1150" r="8" fill="#00d9ff" opacity="0.5"/>
+
+                    <!-- Core Processor - Top Center -->
+                    <g id="processor-core" class="component" data-component="core">
+                        <rect x="650" y="150" width="300" height="280" class="component-box core-box" rx="5"/>
+                        
+                        <!-- Internal structure -->
+                        <rect x="670" y="170" width="120" height="110" class="sub-component" data-sub="alu" rx="3"/>
+                        <text x="730" y="220" class="micro-text">ALU</text>
+                        <text x="730" y="235" class="micro-text">32-bit</text>
+                        
+                        <rect x="810" y="170" width="120" height="110" class="sub-component" data-sub="registers" rx="3"/>
+                        <text x="870" y="220" class="micro-text">Registers</text>
+                        <text x="870" y="235" class="micro-text">R0-R15</text>
+                        
+                        <rect x="670" y="300" width="120" height="110" class="sub-component" data-sub="pipeline" rx="3"/>
+                        <text x="730" y="350" class="micro-text">Pipeline</text>
+                        <text x="730" y="365" class="micro-text">3-stage</text>
+                        
+                        <rect x="810" y="300" width="120" height="110" class="sub-component" data-sub="control" rx="3"/>
+                        <text x="870" y="350" class="micro-text">Control</text>
+                        <text x="870" y="365" class="micro-text">Unit</text>
+                        
+                        <text x="800" y="135" class="component-title">CPU CORE</text>
+                        <text x="800" y="450" class="component-subtitle">ARMv8-M Mainline</text>
+                    </g>
+
+                    <!-- NVIC - Top Right -->
+                    <g id="nvic" class="component" data-component="nvic">
+                        <rect x="1150" y="150" width="320" height="200" class="component-box nvic-box" rx="5"/>
+                        
+                        <!-- Priority levels visualization -->
+                        <rect x="1170" y="180" width="50" height="10" fill="rgba(78,205,196,0.3)"/>
+                        <rect x="1170" y="195" width="50" height="10" fill="rgba(78,205,196,0.4)"/>
+                        <rect x="1170" y="210" width="50" height="10" fill="rgba(78,205,196,0.5)"/>
+                        <rect x="1170" y="225" width="50" height="10" fill="rgba(78,205,196,0.6)"/>
+                        <rect x="1170" y="240" width="50" height="10" fill="rgba(78,205,196,0.7)"/>
+                        
+                        <text x="1240" y="200" class="micro-text">Priority 0 (Highest)</text>
+                        <text x="1240" y="240" class="micro-text">Priority 255 (Lowest)</text>
+                        <text x="1240" y="280" class="micro-text">• 240 External Interrupts</text>
+                        <text x="1240" y="300" class="micro-text">• Hardware Priority</text>
+                        <text x="1240" y="320" class="micro-text">• Tail-chaining</text>
+                        
+                        <text x="1310" y="135" class="component-title">NVIC</text>
+                    </g>
+
+                    <!-- MPU - Top Left -->
+                    <g id="mpu" class="component" data-component="mpu">
+                        <rect x="130" y="150" width="320" height="200" class="component-box mpu-box" rx="5"/>
+                        
+                        <!-- Memory regions -->
+                        <rect x="150" y="180" width="60" height="140" fill="rgba(255,195,0,0.2)" stroke="rgba(255,195,0,0.4)" stroke-width="1"/>
+                        <text x="180" y="255" class="micro-text" transform="rotate(-90 180 255)">8 Regions</text>
+                        
+                        <text x="230" y="200" class="micro-text">• Read/Write/Execute</text>
+                        <text x="230" y="220" class="micro-text">• Privileged Access</text>
+                        <text x="230" y="240" class="micro-text">• Size: 32B-4GB</text>
+                        <text x="230" y="260" class="micro-text">• Sub-regions</text>
+                        <text x="230" y="280" class="micro-text">• Cacheable/Bufferable</text>
+                        <text x="230" y="300" class="micro-text">• Shareable</text>
+                        
+                        <text x="290" y="135" class="component-title">MPU</text>
+                    </g>
+
+                    <!-- SAU - Security Attribution Unit (M33 specific) -->
+                    <g id="sau" class="component" data-component="sau">
+                        <rect x="500" y="150" width="120" height="200" class="component-box" rx="5" 
+                              stroke="rgba(200,100,255,0.8)" fill="rgba(15, 5, 20, 0.7)"/>
+                        
+                        <text x="560" y="190" class="micro-text">Secure</text>
+                        <text x="560" y="210" class="micro-text">Regions</text>
+                        <rect x="515" y="220" width="90" height="30" fill="rgba(200,100,255,0.3)"/>
+                        <text x="560" y="240" class="micro-text" font-size="10">S-Region</text>
+                        
+                        <text x="560" y="270" class="micro-text">Non-Secure</text>
+                        <text x="560" y="290" class="micro-text">Regions</text>
+                        <rect x="515" y="300" width="90" height="30" fill="rgba(100,200,255,0.3)"/>
+                        <text x="560" y="320" class="micro-text" font-size="10">NS-Region</text>
+                        
+                        <text x="560" y="135" class="component-title">SAU</text>
+                    </g>
+
+                    <!-- Bus Matrix - Center -->
+                    <g id="bus-matrix" class="component" data-component="bus">
+                        <rect x="650" y="500" width="300" height="180" class="component-box bus-box" rx="5"/>
+                        
+                        <!-- Bus lines -->
+                        <line x1="670" y1="550" x2="930" y2="550" class="bus-line" stroke-width="4"/>
+                        <line x1="670" y1="575" x2="930" y2="575" class="bus-line" stroke-width="3"/>
+                        <line x1="670" y1="600" x2="930" y2="600" class="bus-line" stroke-width="4"/>
+                        <line x1="670" y1="625" x2="930" y2="625" class="bus-line" stroke-width="3"/>
+                        <line x1="670" y1="650" x2="930" y2="650" class="bus-line" stroke-width="2"/>
+                        
+                        <text x="690" y="535" class="micro-text">I-Code (Instruction)</text>
+                        <text x="690" y="590" class="micro-text">D-Code (Data)</text>
+                        <text x="690" y="640" class="micro-text">System Bus</text>
+                        <text x="690" y="665" class="micro-text">APB Bridge</text>
+                        
+                        <text x="800" y="485" class="component-title">BUS MATRIX</text>
+                    </g>
+
+                    <!-- System Control Block - Right -->
+                    <g id="scb" class="component" data-component="scb">
+                        <rect x="1150" y="400" width="280" height="220" class="component-box scb-box" rx="5"/>
+                        
+                        <text x="1180" y="440" class="micro-text">• CPUID Register</text>
+                        <text x="1180" y="465" class="micro-text">• System Control</text>
+                        <text x="1180" y="490" class="micro-text">• Priority Grouping</text>
+                        <text x="1180" y="515" class="micro-text">• Fault Status</text>
+                        <text x="1180" y="540" class="micro-text">• Vector Table</text>
+                        <text x="1180" y="565" class="micro-text">• TrustZone Control</text>
+                        <text x="1180" y="590" class="micro-text">• Stack Pointer</text>
+                        
+                        <text x="1290" y="385" class="component-title">SCB</text>
+                    </g>
+
+                    <!-- SysTick Timer - Left -->
+                    <g id="systick" class="component" data-component="systick">
+                        <rect x="130" y="400" width="220" height="220" class="component-box systick-box" rx="5"/>
+                        
+                        <circle cx="240" cy="510" r="70" fill="none" stroke="rgba(255,159,64,0.5)" stroke-width="3"/>
+                        <line x1="240" y1="510" x2="240" y2="450" stroke="rgba(255,159,64,0.8)" stroke-width="3" class="timer-hand"/>
+                        <circle cx="240" cy="510" r="6" fill="rgba(255,159,64,1)"/>
+                        
+                        <text x="240" y="385" class="component-title">SysTick</text>
+                        <text x="240" y="605" class="component-subtitle">24-bit Timer</text>
+                    </g>
+
+                    <!-- Debug System - Left Bottom -->
+                    <g id="debug" class="component" data-component="debug">
+                        <rect x="130" y="680" width="320" height="220" class="component-box debug-box" rx="5"/>
+                        
+                        <text x="160" y="720" class="micro-text">DWT: Watchpoint & Trace</text>
+                        <text x="160" y="750" class="micro-text">ITM: Instrumentation</text>
+                        <text x="160" y="780" class="micro-text">FPB: Flash Patch (8 BP)</text>
+                        <text x="160" y="810" class="micro-text">TPIU: Trace Port</text>
+                        <text x="160" y="840" class="micro-text">ETM: Embedded Trace</text>
+                        <text x="160" y="870" class="micro-text">• SWD/JTAG Interface</text>
+                        
+                        <text x="290" y="665" class="component-title">DEBUG</text>
+                    </g>
+
+                    <!-- FPU - Right Bottom -->
+                    <g id="fpu" class="component" data-component="fpu">
+                        <rect x="1150" y="680" width="320" height="220" class="component-box fpu-box" rx="5"/>
+                        
+                        <rect x="1170" y="720" width="60" height="140" fill="rgba(116,185,255,0.2)" stroke="rgba(116,185,255,0.4)" stroke-width="1"/>
+                        <text x="1200" y="795" class="micro-text" transform="rotate(-90 1200 795)">S0-S31</text>
+                        
+                        <text x="1250" y="740" class="micro-text">• Single Precision</text>
+                        <text x="1250" y="765" class="micro-text">• IEEE 754</text>
+                        <text x="1250" y="790" class="micro-text">• FMAC Support</text>
+                        <text x="1250" y="815" class="micro-text">• Denormal Support</text>
+                        <text x="1250" y="840" class="micro-text">• NaN Handling</text>
+                        <text x="1250" y="865" class="micro-text">• Lazy Stacking</text>
+                        
+                        <text x="1310" y="665" class="component-title">FPU</text>
+                    </g>
+
+                    <!-- Memory System - Center Bottom -->
+                    <g id="memory" class="component" data-component="memory">
+                        <rect x="500" y="750" width="600" height="180" class="component-box memory-box" rx="5"/>
+                        
+                        <rect x="520" y="790" width="160" height="35" fill="rgba(253,121,168,0.3)"/>
+                        <text x="600" y="812" class="micro-text">Code (0x00000000)</text>
+                        
+                        <rect x="700" y="790" width="160" height="35" fill="rgba(253,121,168,0.4)"/>
+                        <text x="780" y="812" class="micro-text">SRAM (0x20000000)</text>
+                        
+                        <rect x="880" y="790" width="160" height="35" fill="rgba(253,121,168,0.5)"/>
+                        <text x="960" y="812" class="micro-text">Periph (0x40000000)</text>
+                        
+                        <rect x="520" y="840" width="160" height="35" fill="rgba(253,121,168,0.35)"/>
+                        <text x="600" y="862" class="micro-text">Ext RAM (0x60000000)</text>
+                        
+                        <rect x="700" y="840" width="160" height="35" fill="rgba(253,121,168,0.45)"/>
+                        <text x="780" y="862" class="micro-text">Ext Dev (0xA0000000)</text>
+                        
+                        <rect x="880" y="840" width="160" height="35" fill="rgba(253,121,168,0.55)"/>
+                        <text x="960" y="862" class="micro-text">System (0xE0000000)</text>
+                        
+                        <text x="800" y="895" class="micro-text">4GB Unified Address Space</text>
+                        
+                        <text x="800" y="735" class="component-title">MEMORY MAP</text>
+                    </g>
+
+                    <!-- Cache - Between Core and Bus -->
+                    <g id="cache" class="component" data-component="cache">
+                        <rect x="1000" y="250" width="120" height="180" class="component-box" rx="5"
+                              stroke="rgba(100,255,200,0.8)" fill="rgba(5, 20, 15, 0.7)"/>
+                        
+                        <text x="1060" y="280" class="micro-text">I-Cache</text>
+                        <rect x="1015" y="290" width="90" height="30" fill="rgba(100,255,200,0.2)"/>
+                        <text x="1060" y="310" class="micro-text" font-size="10">16KB</text>
+                        
+                        <text x="1060" y="340" class="micro-text">D-Cache</text>
+                        <rect x="1015" y="350" width="90" height="30" fill="rgba(100,255,200,0.25)"/>
+                        <text x="1060" y="370" class="micro-text" font-size="10">16KB</text>
+                        
+                        <text x="1060" y="400" class="micro-text">Optional</text>
+                        
+                        <text x="1060" y="235" class="component-title">CACHE</text>
+                    </g>
+
+                    <!-- Connection traces -->
+                    <g class="connections">
+                        <!-- External Debug to Debug Block -->
+                        <path d="M 50 200 L 130 200 L 130 790" class="connection-trace debug-trace" filter="url(#glow)"/>
+                        
+                        <!-- External IRQ to NVIC -->
+                        <path d="M 50 350 L 1150 350 L 1150 350" class="connection-trace interrupt-trace" filter="url(#glow)"/>
+                        
+                        <!-- External Clock to SysTick -->
+                        <path d="M 50 500 L 130 500" class="connection-trace clock-trace" filter="url(#glow)"/>
+                        
+                        <!-- MPU to Core -->
+                        <path d="M 450 250 L 650 250" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- SAU to Core -->
+                        <path d="M 620 250 L 650 250" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- NVIC to Core -->
+                        <path d="M 1150 250 L 950 250" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Core to Cache -->
+                        <path d="M 950 290 L 1000 290" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Cache to Bus Matrix -->
+                        <path d="M 1060 430 L 1060 590 L 950 590" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Core to Bus Matrix -->
+                        <path d="M 800 430 L 800 500" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- SysTick to Core -->
+                        <path d="M 350 510 L 500 510 L 500 300 L 650 300" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus Matrix to SCB -->
+                        <path d="M 950 510 L 1150 510" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus Matrix to FPU -->
+                        <path d="M 950 590 L 1100 590 L 1100 790 L 1150 790" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus Matrix to Memory -->
+                        <path d="M 800 680 L 800 750" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus Matrix to Debug -->
+                        <path d="M 650 590 L 500 590 L 500 790 L 450 790" class="connection-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus to external AHB -->
+                        <path d="M 950 520 L 1100 520 L 1100 400 L 1550 400" class="connection-trace ahb-trace" filter="url(#glow)"/>
+                        
+                        <!-- Bus to external APB -->
+                        <path d="M 950 640 L 1200 640 L 1200 500 L 1550 500" class="connection-trace apb-trace" filter="url(#glow)"/>
+                        
+                        <!-- Memory to Flash -->
+                        <path d="M 600 930 L 600 950 L 300 950 L 300 1150" class="connection-trace flash-trace" filter="url(#glow)"/>
+                        <path d="M 600 930 L 600 1150" class="connection-trace sram-trace" filter="url(#glow)"/>
+                        <path d="M 800 930 L 800 1000 L 900 1000 L 900 1150" class="connection-trace ext-mem-bus" filter="url(#glow)"/>
+                    </g>
+
+                    <!-- Chip label -->
+                    <text x="800" y="1130" class="chip-label">ARM Cortex-M33 • ARMv8-M • TrustZone • DSP • FPU</text>
+                </svg>
+            </div>
+
+            <div class="info-panel" id="info-panel">
+                <div class="info-header">
+                    <h3 id="info-title">Select a component</h3>
+                    <button id="close-info" class="close-btn">✕</button>
+                </div>
+                <div class="info-content" id="info-content">
+                    <p>Click on any component to see detailed information</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="specs-section fade-in">
+            <div class="section-header">
+                <h2>Technical Specifications</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Cortex-M0/M0+</h3>
+                    <ul>
+                        <li>ARMv6-M architecture</li>
+                        <li>56 instructions</li>
+                        <li>0.9 DMIPS/MHz</li>
+                        <li>Ultra-low power</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Cortex-M3</h3>
+                    <ul>
+                        <li>ARMv7-M architecture</li>
+                        <li>Thumb-2 instruction set</li>
+                        <li>1.25 DMIPS/MHz</li>
+                        <li>Hardware divide</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Cortex-M4</h3>
+                    <ul>
+                        <li>ARMv7E-M architecture</li>
+                        <li>DSP extensions</li>
+                        <li>Optional FPU</li>
+                        <li>1.25 DMIPS/MHz</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Cortex-M7</h3>
+                    <ul>
+                        <li>ARMv7E-M architecture</li>
+                        <li>6-stage superscalar</li>
+                        <li>Double-precision FPU</li>
+                        <li>2.14 DMIPS/MHz</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Mano Delcourt. All rights reserved.</p>
+    </footer>
+
+    <script src="cortex-m-script.js"></script>
+</body>
+</html>
