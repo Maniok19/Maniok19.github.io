@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWP - Single Wire Protocol Interactive Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="swp-styles.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="glitch" data-text="Single Wire Protocol">Single Wire Protocol</h1>
+            <p class="subtitle">Interactive SWP Communication Demo</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container swp-main">
+        <section class="intro-section fade-in">
+            <div class="section-header">
+                <h2>What is Single Wire Protocol?</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <p>
+                    Single Wire Protocol (SWP) is a communication interface per ETSI TS 102 613 that enables full-duplex 
+                    data transmission using only one wire plus ground. It uses two signals: <strong>S1</strong> (voltage modulation 
+                    from master/CLF) and <strong>S2</strong> (current modulation from slave/UICC). The protocol uses pulse-width 
+                    modulation (PWM) encoding where a logical '1' has 75% high duration and a logical '0' has 25% high duration.
+                    S2 is only valid when S1 is in the high state. SWP is used in NFC secure elements and embedded systems.
+                </p>
+            </div>
+        </section>
+
+        <!-- Main Interactive Demo -->
+        <section class="demo-section fade-in">
+            <div class="section-header">
+                <h2>Interactive Channel Modulation</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="demo-container">
+                <div class="controls-panel">
+                    <h3>Channel Control</h3>
+                    
+                    <div class="channel-control">
+                        <div class="channel-header">
+                            <label>S1 Channel (Binary):</label>
+                            <div class="channel-indicator s1" id="s1-indicator">0</div>
+                        </div>
+                        <div class="bit-buttons" id="s1-buttons">
+                            <button class="bit-btn" data-channel="s1" data-index="0" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s1" data-index="1" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s1" data-index="2" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s1" data-index="3" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s1" data-index="4" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s1" data-index="5" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s1" data-index="6" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s1" data-index="7" data-bit="1">1</button>
+                        </div>
+                    </div>
+
+                    <div class="channel-control">
+                        <div class="channel-header">
+                            <label>S0 Channel (Binary):</label>
+                            <div class="channel-indicator s0" id="s0-indicator">0</div>
+                        </div>
+                        <div class="bit-buttons" id="s0-buttons">
+                            <button class="bit-btn" data-channel="s0" data-index="0" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s0" data-index="1" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s0" data-index="2" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s0" data-index="3" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s0" data-index="4" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s0" data-index="5" data-bit="1">1</button>
+                            <button class="bit-btn" data-channel="s0" data-index="6" data-bit="0">0</button>
+                            <button class="bit-btn" data-channel="s0" data-index="7" data-bit="0">0</button>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="start-transmission" class="control-btn primary">Start Transmission</button>
+                        <button id="reset-demo" class="control-btn">Reset</button>
+                    </div>
+
+                    <div class="electrical-readings">
+                        <div class="reading-box">
+                            <span class="reading-label">Voltage:</span>
+                            <span class="reading-value" id="voltage-reading">0.0V</span>
+                        </div>
+                        <div class="reading-box">
+                            <span class="reading-label">Current:</span>
+                            <span class="reading-value" id="current-reading">0.0mA</span>
+                        </div>
+                        <div class="reading-box">
+                            <span class="reading-label">State:</span>
+                            <span class="reading-value" id="state-reading">IDLE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visualization-panel">
+                    <canvas id="swp-canvas" width="800" height="500"></canvas>
+                    
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #ff6b6b;"></div>
+                            <span>S1 Signal (Voltage PWM from CLF)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #4ecdc4;"></div>
+                            <span>S2 Signal (Current from UICC, valid when S1 high)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Info -->
+        <section class="specs-section fade-in">
+            <div class="section-header">
+                <h2>Technical Specifications</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Voltage Levels (Class C)</h3>
+                    <ul>
+                        <li><strong>VCC:</strong> 1.62V - 1.98V</li>
+                        <li><strong>S1 VOH:</strong> 0.85 × VCC min</li>
+                        <li><strong>S1 VOL:</strong> 0V - 0.15 × VCC</li>
+                        <li><strong>PWM:</strong> 75% high = '1', 25% high = '0'</li>
+                        <li><strong>Bit Duration:</strong> 1-5 μs (default)</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Current Levels (S2)</h3>
+                    <ul>
+                        <li><strong>IH (High):</strong> 600-1000 μA</li>
+                        <li><strong>IL (Low):</strong> 0-20 μA</li>
+                        <li><strong>Valid only:</strong> When S1 is HIGH</li>
+                        <li><strong>Switching:</strong> Only when S1 is LOW</li>
+                        <li><strong>Impedance:</strong> 50Ω</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Applications</h3>
+                    <ul>
+                        <li><strong>NFC:</strong> Secure Element Interface</li>
+                        <li><strong>Mobile:</strong> SIM-eSE Communication</li>
+                        <li><strong>Embedded:</strong> Low-pin Systems</li>
+                        <li><strong>IoT:</strong> Sensor Networks</li>
+                        <li><strong>Payment:</strong> Contactless Cards</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Mano Delcourt. All rights reserved.</p>
+    </footer>
+
+    <script src="swp-script.js"></script>
+</body>
+</html>
