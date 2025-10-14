@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APDU - Application Protocol Data Unit Interactive Demo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="apdu-styles.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <header class="header">
+        <div class="container">
+            <h1 class="glitch" data-text="APDU Protocol">APDU Protocol</h1>
+            <p class="subtitle">Application Protocol Data Unit - ISO/IEC 7816-4</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container apdu-main">
+        <section class="intro-section fade-in">
+            <div class="section-header">
+                <h2>What is APDU?</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="about-content">
+                <p>
+                    <strong>Think of APDU as a language that smart cards understand.</strong> Just like you speak to a person, 
+                    your computer or phone needs a way to "talk" to smart cards (like your credit card, SIM card, or ID card). 
+                    APDU is that language!
+                </p>
+                <p>
+                    When you insert a card into a reader, you send <strong>commands</strong> (like "show me your ID" or "store this data") 
+                    and the card sends back <strong>responses</strong> (like "here's my ID" or "data stored successfully"). 
+                    This simulator lets you practice sending these commands and see how the card responds - all safely in your browser!
+                </p>
+            </div>
+        </section>
+
+
+        <!-- Interactive Command Builder -->
+        <section class="builder-section fade-in">
+            <div class="section-header">
+                <h2>Interactive APDU Builder</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="help-banner">
+                <span class="help-icon">ℹ️</span>
+                <p><strong>What am I building?</strong> You're creating a command to send to a smart card. 
+                Fill in the fields below (or use a template), click "Build APDU", then "Send to Virtual Card" to see it in action!</p>
+            </div>
+
+            <div class="builder-container">
+                <div class="builder-controls">
+                    <h3>Command APDU (C-APDU)</h3>
+                    
+                    <div class="apdu-field">
+                        <label for="cla">
+                            CLA (Class Byte)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">Identifies the command category. Usually "00" for standard commands.</span>
+                            </span>
+                        </label>
+                        <div class="field-input-group">
+                            <input type="text" id="cla" maxlength="2" value="00" class="hex-input">
+                            <span class="field-hint">0x00 - Inter-industry</span>
+                        </div>
+                        <div class="field-description">The "category" of your command. Keep it as 00 for standard commands.</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="ins">
+                            INS (Instruction Byte)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">The specific action you want the card to perform.</span>
+                            </span>
+                        </label>
+                        <div class="field-input-group">
+                            <select id="ins" class="ins-select">
+                                <option value="A4">A4 - SELECT (Open a file)</option>
+                                <option value="B0">B0 - READ BINARY (Read data)</option>
+                                <option value="D6">D6 - UPDATE BINARY (Write data)</option>
+                                <option value="CA">CA - GET DATA (Get specific info)</option>
+                                <option value="20">20 - VERIFY (Check PIN)</option>
+                                <option value="84">84 - GET CHALLENGE (Get random number)</option>
+                                <option value="88">88 - INTERNAL AUTHENTICATE</option>
+                                <option value="82">82 - EXTERNAL AUTHENTICATE</option>
+                                <option value="CUSTOM">Custom...</option>
+                            </select>
+                            <input type="text" id="ins-custom" maxlength="2" class="hex-input" style="display: none;">
+                        </div>
+                        <div class="field-description">What do you want the card to do? This is the main action.</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="p1">
+                            P1 (Parameter 1)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">First parameter to modify how the instruction works.</span>
+                            </span>
+                        </label>
+                        <input type="text" id="p1" maxlength="2" value="00" class="hex-input">
+                        <div class="field-description">Additional detail for your command (varies by instruction)</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="p2">
+                            P2 (Parameter 2)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">Second parameter to modify how the instruction works.</span>
+                            </span>
+                        </label>
+                        <input type="text" id="p2" maxlength="2" value="00" class="hex-input">
+                        <div class="field-description">More details for your command (varies by instruction)</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="lc">
+                            Lc (Data Length)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">How many bytes of data you're sending to the card.</span>
+                            </span>
+                        </label>
+                        <input type="number" id="lc" min="0" max="255" value="0" class="length-input">
+                        <div class="field-description">How many bytes of data you're sending (auto-calculated when you type data)</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="data">
+                            Data
+                            <span class="tooltip">?
+                                <span class="tooltiptext">The actual data you want to send (e.g., file ID, PIN, etc.)</span>
+                            </span>
+                        </label>
+                        <textarea id="data" rows="3" class="data-input" placeholder="Enter hex data (e.g., 3F00 or A0000000041010)"></textarea>
+                        <div class="field-description">The information you want to send (like a file ID or PIN). Use hexadecimal format.</div>
+                    </div>
+
+                    <div class="apdu-field">
+                        <label for="le">
+                            Le (Expected Response Length)
+                            <span class="tooltip">?
+                                <span class="tooltiptext">How many bytes of response data you expect from the card.</span>
+                            </span>
+                        </label>
+                        <input type="number" id="le" min="0" max="256" value="0" class="length-input">
+                        <div class="field-description">How much data you expect back from the card (0 means you don't expect any data)</div>
+                    </div>
+
+                    <div class="builder-actions">
+                        <button id="build-apdu" class="action-btn primary">🔨 Build APDU</button>
+                        <button id="send-apdu" class="action-btn success" disabled>📤 Send to Virtual Card</button>
+                        <button id="reset-builder" class="action-btn">🔄 Reset</button>
+                    </div>
+                </div>
+
+                <div class="visualization-panel">
+                    <h3>APDU Structure Visualization</h3>
+                    <p class="visualization-help">This shows your command as individual bytes. Each colored box is one byte (8 bits) of information.</p>
+                    
+                    <div class="apdu-structure" id="apdu-structure">
+                        <div class="apdu-byte mandatory" data-field="cla">
+                            <div class="byte-label">CLA</div>
+                            <div class="byte-value">00</div>
+                        </div>
+                        <div class="apdu-byte mandatory" data-field="ins">
+                            <div class="byte-label">INS</div>
+                            <div class="byte-value">A4</div>
+                        </div>
+                        <div class="apdu-byte mandatory" data-field="p1">
+                            <div class="byte-label">P1</div>
+                            <div class="byte-value">00</div>
+                        </div>
+                        <div class="apdu-byte mandatory" data-field="p2">
+                            <div class="byte-label">P2</div>
+                            <div class="byte-value">00</div>
+                        </div>
+                    </div>
+
+                    <div class="apdu-output">
+                        <h4>Command APDU (Hex)</h4>
+                        <p class="output-help">This is what actually gets sent to the card - a series of hexadecimal bytes.</p>
+                        <div class="output-hex" id="command-hex">00 A4 00 00</div>
+                    </div>
+
+                    <div class="apdu-legend">
+                        <div class="legend-item">
+                            <div class="legend-color mandatory"></div>
+                            <span>Mandatory (Required)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color optional"></div>
+                            <span>Optional (Conditional)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color data"></div>
+                            <span>Data (Your content)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virtual Smart Card Simulator -->
+        <section class="simulator-section fade-in">
+            <div class="section-header">
+                <h2>Virtual Smart Card Simulator</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="simulator-help">
+                <p><strong>What is this?</strong> This is a simulated smart card that responds to your commands. 
+                It behaves like a real card but runs entirely in your browser - perfect for learning!</p>
+            </div>
+
+            <div class="simulator-container">
+                <div class="card-visualization">
+                    <div class="smart-card" id="smart-card">
+                        <div class="card-chip">
+                            <div class="chip-contacts">
+                                <div class="contact" data-pin="VCC" title="Power Supply (3V or 5V)">
+                                    <div class="contact-label">VCC</div>
+                                </div>
+                                <div class="contact" data-pin="RST" title="Reset Signal">
+                                    <div class="contact-label">RST</div>
+                                </div>
+                                <div class="contact" data-pin="CLK" title="Clock Signal">
+                                    <div class="contact-label">CLK</div>
+                                </div>
+                                <div class="contact" data-pin="GND" title="Ground">
+                                    <div class="contact-label">GND</div>
+                                </div>
+                                <div class="contact" data-pin="VPP" title="Programming Voltage">
+                                    <div class="contact-label">VPP</div>
+                                </div>
+                                <div class="contact" data-pin="I/O" title="Data Input/Output">
+                                    <div class="contact-label">I/O</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-status" id="card-status">
+                            <span class="status-indicator"></span>
+                            <span class="status-text">Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="card-info">
+                        <h4>Card Information</h4>
+                        <div class="info-item">
+                            <strong>ATR:</strong>
+                            <span id="atr-value" title="Answer To Reset - Card's identification">3B 9F 96 80 1F C7 80 31 E0 73...</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Protocol:</strong>
+                            <span title="Communication protocols supported">T=0 / T=1</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Current File:</strong>
+                            <span id="current-file" title="Currently selected file on the card">MF (3F00)</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>PIN Tries:</strong>
+                            <span id="pin-tries" title="Remaining PIN verification attempts">3</span>
+                        </div>
+                    </div>
+
+                    <div class="card-hint">
+                        <strong>💡 Hint:</strong> Try sending "GET CHALLENGE" command - the card will light up and respond!
+                    </div>
+                </div>
+
+                <div class="transaction-log">
+                    <div class="log-header">
+                        <h4>Transaction Log</h4>
+                        <button id="clear-log" class="clear-btn" title="Clear all log entries">Clear</button>
+                    </div>
+                    <div class="log-help">
+                        <p>📝 Commands you send appear with → and responses with ←. Green status = success!</p>
+                    </div>
+                    <div class="log-content" id="transaction-log">
+                        <div class="log-empty">
+                            <p>No transactions yet. Build and send a command to get started!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Response Status Words Reference -->
+        <section class="reference-section fade-in">
+            <div class="section-header">
+                <h2>Understanding Response Codes</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="status-help">
+                <p>Every response from the card ends with two bytes called <strong>Status Words (SW1-SW2)</strong>. 
+                These tell you if your command worked or why it failed. Think of them as the card's way of saying 
+                "OK!", "Not allowed", or "Error".</p>
+            </div>
+
+            <div class="status-grid">
+                <div class="status-card success">
+                    <h3>90 00</h3>
+                    <p class="status-meaning">✅ Success</p>
+                    <p class="status-description">Perfect! Your command executed successfully. This is what you want to see!</p>
+                    <p class="status-example"><strong>Example:</strong> Successfully read data from a file</p>
+                </div>
+                <div class="status-card warning">
+                    <h3>61 XX</h3>
+                    <p class="status-meaning">📦 More Data Available</p>
+                    <p class="status-description">Success, but the card has more data to send. XX tells you how many more bytes are waiting.</p>
+                    <p class="status-example"><strong>What to do:</strong> Send a GET RESPONSE command to fetch the remaining data</p>
+                </div>
+                <div class="status-card warning">
+                    <h3>63 CX</h3>
+                    <p class="status-meaning">⚠️ Verification Failed</p>
+                    <p class="status-description">Wrong PIN entered! X shows remaining attempts (e.g., 63 C3 = 3 tries left)</p>
+                    <p class="status-example"><strong>Be careful:</strong> Too many wrong attempts will block the card!</p>
+                </div>
+                <div class="status-card error">
+                    <h3>67 00</h3>
+                    <p class="status-meaning">❌ Wrong Length</p>
+                    <p class="status-description">The Lc or Le value doesn't match your data. Check your data field!</p>
+                    <p class="status-example"><strong>Fix:</strong> Make sure Lc matches the length of your data</p>
+                </div>
+                <div class="status-card error">
+                    <h3>69 82</h3>
+                    <p class="status-meaning">🔒 Security Error</p>
+                    <p class="status-description">You need to verify PIN first or don't have permission for this command.</p>
+                    <p class="status-example"><strong>Fix:</strong> Send a VERIFY command with the correct PIN first</p>
+                </div>
+                <div class="status-card error">
+                    <h3>6A 82</h3>
+                    <p class="status-meaning">📁 File Not Found</p>
+                    <p class="status-description">The file ID you specified doesn't exist on the card.</p>
+                    <p class="status-example"><strong>Fix:</strong> Check the file ID in your data field (try 3F00 for root)</p>
+                </div>
+                <div class="status-card error">
+                    <h3>6D 00</h3>
+                    <p class="status-meaning">🚫 Command Not Supported</p>
+                    <p class="status-description">The INS byte you used isn't recognized by this card.</p>
+                    <p class="status-example"><strong>Fix:</strong> Use a standard instruction like A4, B0, or 84</p>
+                </div>
+                <div class="status-card error">
+                    <h3>6F 00</h3>
+                    <p class="status-meaning">💥 Unknown Error</p>
+                    <p class="status-description">Something went wrong, but the card doesn't know what. Try resetting and sending again.</p>
+                    <p class="status-example"><strong>Fix:</strong> Click Reset and try a simpler command first</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Commands -->
+        <section class="commands-section fade-in">
+            <div class="section-header">
+                <h2>Common APDU Commands (Try These!)</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="commands-help">
+                <p>👇 Click <strong>"Use Template"</strong> on any card below to automatically fill the builder with a working example. 
+                Perfect for beginners!</p>
+            </div>
+
+            <div class="commands-grid">
+                <div class="command-card" data-command="SELECT">
+                    <div class="difficulty beginner">Beginner</div>
+                    <h3>SELECT (A4)</h3>
+                    <div class="command-structure">
+                        <code>00 A4 [P1] [P2] [Lc] [File ID]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Opens a file or application on the card - like opening a folder on your computer.</p>
+                    <p><strong>When to use it:</strong> Before reading or writing data, you need to SELECT the file first.</p>
+                    <ul>
+                        <li>P1: How to select (00=by file ID, 04=by application name)</li>
+                        <li>Data: The file ID you want to open (e.g., 3F00 = root file)</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="SELECT">Use Template</button>
+                </div>
+
+                <div class="command-card" data-command="CHALLENGE">
+                    <div class="difficulty beginner">Beginner</div>
+                    <h3>GET CHALLENGE (84)</h3>
+                    <div class="command-structure">
+                        <code>00 84 00 00 [Le]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Asks the card for a random number - used for security/encryption.</p>
+                    <p><strong>When to use it:</strong> Perfect first command! Always works and returns random data.</p>
+                    <ul>
+                        <li>Le: How many random bytes you want (try 8 or 16)</li>
+                        <li>No data needed!</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="CHALLENGE">Use Template</button>
+                </div>
+
+                <div class="command-card" data-command="READ">
+                    <div class="difficulty intermediate">Intermediate</div>
+                    <h3>READ BINARY (B0)</h3>
+                    <div class="command-structure">
+                        <code>00 B0 [P1] [P2] [Le]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Reads data from the currently selected file - like reading a document.</p>
+                    <p><strong>When to use it:</strong> After SELECTing a file, use this to read its contents.</p>
+                    <ul>
+                        <li>P1-P2: Where to start reading (00 00 = start of file)</li>
+                        <li>Le: How many bytes to read</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="READ">Use Template</button>
+                </div>
+
+                <div class="command-card" data-command="VERIFY">
+                    <div class="difficulty intermediate">Intermediate</div>
+                    <h3>VERIFY (20)</h3>
+                    <div class="command-structure">
+                        <code>00 20 00 [P2] [Lc] [PIN]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Verifies a PIN code - like entering a password to unlock features.</p>
+                    <p><strong>When to use it:</strong> Some commands require authentication first. Try PIN: 31323334 (= "1234").</p>
+                    <ul>
+                        <li>P2: Which PIN to verify (usually 01 or 81)</li>
+                        <li>Data: The PIN in hexadecimal format</li>
+                        <li>⚠️ You only get 3 tries!</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="VERIFY">Use Template</button>
+                </div>
+
+                <div class="command-card" data-command="GET_DATA">
+                    <div class="difficulty intermediate">Intermediate</div>
+                    <h3>GET DATA (CA)</h3>
+                    <div class="command-structure">
+                        <code>00 CA [P1] [P2] [Le]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Retrieves specific information from the card (serial number, card number, etc.).</p>
+                    <p><strong>When to use it:</strong> To get card details without selecting a file first.</p>
+                    <ul>
+                        <li>P1-P2: What data you want (0042 = serial, 005A = card number)</li>
+                        <li>Le: Maximum response length</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="GET_DATA">Use Template</button>
+                </div>
+
+                <div class="command-card" data-command="UPDATE">
+                    <div class="difficulty advanced">Advanced</div>
+                    <h3>UPDATE BINARY (D6)</h3>
+                    <div class="command-structure">
+                        <code>00 D6 [P1] [P2] [Lc] [Data]</code>
+                    </div>
+                    <p><strong>What it does:</strong> Writes data to a file on the card - like saving a document.</p>
+                    <p><strong>When to use it:</strong> After SELECTing a file AND verifying PIN. Changes card memory!</p>
+                    <ul>
+                        <li>P1-P2: Where to write (00 00 = start of file)</li>
+                        <li>Data: The bytes you want to write</li>
+                        <li>⚠️ Requires authentication!</li>
+                    </ul>
+                    <button class="use-template-btn" data-template="UPDATE">Use Template</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specifications -->
+        <section class="specs-section fade-in">
+            <div class="section-header">
+                <h2>Technical Details (For the Curious)</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>APDU Cases</h3>
+                    <p class="spec-intro">There are 4 types of APDU commands based on what data flows:</p>
+                    <ul>
+                        <li><strong>Case 1:</strong> Command only, no data exchange (e.g., card reset)</li>
+                        <li><strong>Case 2:</strong> Command + card sends data back (e.g., READ)</li>
+                        <li><strong>Case 3:</strong> Command + you send data (e.g., VERIFY PIN)</li>
+                        <li><strong>Case 4:</strong> Both directions - you send data, card responds (e.g., AUTHENTICATE)</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Response Format</h3>
+                    <p class="spec-intro">Every response has the same structure:</p>
+                    <ul>
+                        <li><strong>Data bytes:</strong> The actual response (optional, can be empty)</li>
+                        <li><strong>SW1:</strong> First status byte (indicates category of result)</li>
+                        <li><strong>SW2:</strong> Second status byte (specific details)</li>
+                        <li><strong>Example:</strong> "01 02 03 90 00" = 3 data bytes + success</li>
+                    </ul>
+                </div>
+                <div class="spec-card">
+                    <h3>Real-World Uses</h3>
+                    <p class="spec-intro">APDU is used everywhere smart cards are:</p>
+                    <ul>
+                        <li><strong>Payment cards:</strong> Credit/debit cards, contactless payments</li>
+                        <li><strong>Mobile:</strong> SIM cards, eSIM, mobile payments (Apple Pay, Google Pay)</li>
+                        <li><strong>Identity:</strong> Passports, national ID cards, driver's licenses</li>
+                        <li><strong>Access:</strong> Building access cards, transit cards, hotel keys</li>
+                        <li><strong>IoT:</strong> Secure elements in devices, hardware security modules</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Mano Delcourt. All rights reserved.</p>
+    </footer>
+
+    <script src="apdu-script.js"></script>
+</body>
+</html>
