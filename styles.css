@@ -209,8 +209,8 @@ body {
     z-index: 10;
     text-align: center;
     padding: 80px 20px 50px;
-    background: linear-gradient(180deg, rgba(27, 39, 53, 0.95) 0%, rgba(9, 10, 15, 0.6) 100%);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(27, 39, 53, 0.2) 0%, rgba(9, 10, 15, 0.1) 100%);
+    backdrop-filter: blur(5px);
 }
 
 .container {
@@ -283,14 +283,14 @@ main {
 
 section {
     margin-bottom: 100px;
-    background: linear-gradient(135deg, rgba(15, 20, 35, 0.85) 0%, rgba(20, 30, 48, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(15, 20, 35, 0.3) 0%, rgba(20, 30, 48, 0.25) 100%);
     padding: 50px;
     border-radius: 20px;
     border: 1px solid rgba(0, 217, 255, 0.15);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 
                 inset 0 1px 1px rgba(255, 255, 255, 0.05),
                 0 0 60px rgba(0, 217, 255, 0.05);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
 }
 
 .section-header {
@@ -424,7 +424,7 @@ section {
 }
 
 .cert-card {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 150, 200, 0.03) 100%);
     padding: 40px 30px;
     border-radius: 15px;
     border: 1px solid rgba(0, 217, 255, 0.25);
@@ -454,7 +454,7 @@ section {
     transform: translateY(-8px) scale(1.02);
     border-color: #00d9ff;
     box-shadow: 0 15px 40px rgba(0, 217, 255, 0.35);
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.12) 0%, rgba(0, 150, 200, 0.08) 100%);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.05) 100%);
 }
 
 .cert-card h3 {
@@ -470,14 +470,14 @@ section {
 }
 
 .cert-card.distinction {
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 180, 0, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 180, 0, 0.03) 100%);
     border-color: rgba(255, 215, 0, 0.4);
 }
 
 .cert-card.distinction:hover {
     border-color: #ffd700;
     box-shadow: 0 15px 40px rgba(255, 215, 0, 0.35);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.12) 0%, rgba(255, 180, 0, 0.08) 100%);
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 180, 0, 0.05) 100%);
 }
 
 .cert-card.distinction h3 {
@@ -493,10 +493,10 @@ section {
 }
 
 .interest-item {
-    background: linear-gradient(135deg, rgba(65, 102, 245, 0.12) 0%, rgba(50, 80, 200, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(65, 102, 245, 0.04) 0%, rgba(50, 80, 200, 0.03) 100%);
     padding: 18px 35px;
     border-radius: 30px;
-    border: 1px solid rgba(65, 102, 245, 0.4);
+    border: 1px solid rgba(65, 102, 245, 0.25);
     color: #6a9af5;
     font-weight: 700;
     font-size: 1.05rem;
@@ -505,9 +505,9 @@ section {
 }
 
 .interest-item:hover {
-    background: linear-gradient(135deg, rgba(65, 102, 245, 0.2) 0%, rgba(50, 80, 200, 0.15) 100%);
+    background: linear-gradient(135deg, rgba(65, 102, 245, 0.07) 0%, rgba(50, 80, 200, 0.05) 100%);
     transform: translateY(-3px) scale(1.08);
-    box-shadow: 0 8px 30px rgba(65, 102, 245, 0.5);
+    box-shadow: 0 8px 30px rgba(65, 102, 245, 0.25);
     border-color: #6a9af5;
 }
 
@@ -517,8 +517,8 @@ section {
     z-index: 10;
     text-align: center;
     padding: 30px 20px;
-    background: rgba(15, 20, 30, 0.9);
-    border-top: 1px solid rgba(0, 217, 255, 0.2);
+    background: rgba(15, 20, 30, 0.3);
+    border-top: 1px solid rgba(0, 217, 255, 0.12);
     color: #a0a0a0;
 }
 
@@ -535,8 +535,8 @@ section {
     align-items: center;
     gap: 10px;
     padding: 12px 24px;
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.05) 100%);
-    border: 1px solid rgba(0, 217, 255, 0.25);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.04) 0%, rgba(0, 150, 200, 0.03) 100%);
+    border: 1px solid rgba(0, 217, 255, 0.15);
     border-radius: 12px;
     color: #00d9ff;
     text-decoration: none;
@@ -554,7 +554,7 @@ section {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.12), transparent);
     transition: left 0.6s;
 }
 
@@ -563,9 +563,9 @@ section {
 }
 
 .nav-link:hover {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 150, 200, 0.12) 100%);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.06) 100%);
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 25px rgba(0, 217, 255, 0.4);
+    box-shadow: 0 8px 25px rgba(0, 217, 255, 0.2);
     border-color: #00d9ff;
 }
 
@@ -615,10 +615,10 @@ section {
 }
 
 .github-stat-card {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 150, 200, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.04) 0%, rgba(0, 150, 200, 0.03) 100%);
     padding: 25px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 217, 255, 0.25);
+    border: 1px solid rgba(0, 217, 255, 0.15);
     text-align: center;
     transition: all 0.3s;
 }
@@ -626,7 +626,7 @@ section {
 .github-stat-card:hover {
     transform: translateY(-5px);
     border-color: #00d9ff;
-    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.15);
 }
 
 .stat-icon {
@@ -658,10 +658,10 @@ section {
 }
 
 .repo-card {
-    background: linear-gradient(135deg, rgba(15, 20, 35, 0.6) 0%, rgba(20, 30, 48, 0.5) 100%);
+    background: linear-gradient(135deg, rgba(15, 20, 35, 0.35) 0%, rgba(20, 30, 48, 0.25) 100%);
     padding: 25px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 217, 255, 0.2);
+    border: 1px solid rgba(0, 217, 255, 0.12);
     transition: all 0.3s;
     cursor: pointer;
     position: relative;
@@ -675,7 +675,7 @@ section {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.06), transparent);
     transition: left 0.5s;
 }
 
@@ -686,7 +686,7 @@ section {
 .repo-card:hover {
     transform: translateY(-5px);
     border-color: #00d9ff;
-    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.12);
 }
 
 .repo-header {
@@ -738,8 +738,8 @@ section {
 .repo-language {
     display: inline-block;
     padding: 4px 12px;
-    background: rgba(0, 217, 255, 0.1);
-    border: 1px solid rgba(0, 217, 255, 0.3);
+    background: rgba(0, 217, 255, 0.04);
+    border: 1px solid rgba(0, 217, 255, 0.18);
     border-radius: 15px;
     color: #00d9ff;
     font-size: 0.85rem;
@@ -755,8 +755,8 @@ section {
 
 .repo-topic {
     padding: 3px 10px;
-    background: rgba(65, 102, 245, 0.1);
-    border: 1px solid rgba(65, 102, 245, 0.3);
+    background: rgba(65, 102, 245, 0.04);
+    border: 1px solid rgba(65, 102, 245, 0.18);
     border-radius: 12px;
     color: #6a9af5;
     font-size: 0.75rem;
