@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let rafId = null;
     
     function updateDigits() {
-        const radius = 100; // Radius of effect around mouse
+        const radius = 50; // Radius of effect around mouse
         
         digits.forEach(digit => {
             const rect = digit.getBoundingClientRect();
